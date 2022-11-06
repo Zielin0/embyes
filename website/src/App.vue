@@ -16,6 +16,7 @@ function copy() {
   navigator.clipboard.writeText(newURL);
 }
 
+// @TODO: Make text field with url next to copy button -> [URL Here] (copy)
 function create() {
   ogModule.title = ogModule.title.replaceAll(' ', '%20');
   ogModule.description = ogModule.description.replaceAll(' ', '%20');
