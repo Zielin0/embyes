@@ -2,7 +2,7 @@ import re
 
 from flask import Flask, request
 
-# @TODO: Move hardcoded values somewhere else
+# @TODO: Move hardcoded values to .env
 host = "127.0.0.1"
 port = 6969
 
