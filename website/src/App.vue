@@ -8,20 +8,22 @@ const match = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
 // @TODO: Move URL to .env
 const url: string = 'http://localhost:6969';
 
-function copy() {
-  const newURL = `${url}/embed?color=${ogModule.color.replace('#', '')}&title=${
-    ogModule.title
-  }&description=${ogModule.description}`;
+let reqURL: string;
 
-  navigator.clipboard.writeText(newURL);
+function copy() {
+  navigator.clipboard.writeText(reqURL);
 }
 
-// @TODO: Make text field with url next to copy button -> [URL Here] (copy)
+// @TODO: Add a notification or some sort of info if the link was copied to the clipboard
 function create() {
   ogModule.title = ogModule.title.replaceAll(' ', '%20');
   ogModule.description = ogModule.description.replaceAll(' ', '%20');
 
-  const parent = document.getElementById('form');
+  reqURL = `${url}/embed?color=${ogModule.color.replace('#', '')}&title=${
+    ogModule.title
+  }&description=${ogModule.description}`;
+
+  const parent = document.getElementsByClassName('grid')[1];
 
   if (!document.getElementById('copy')) {
     const copyButton = document.createElement('button');
@@ -33,7 +35,12 @@ function create() {
       copy();
     });
 
+    const linkField = document.createElement('textarea');
+    linkField.setAttribute('disabled', '');
+    linkField.placeholder = reqURL;
+
     parent?.appendChild(copyButton);
+    parent?.appendChild(linkField);
   }
 }
 
@@ -96,6 +103,8 @@ function validate() {
       />
 
       <button type="submit">Create!</button>
+
+      <div class="grid"></div>
     </form>
   </main>
 </template>
