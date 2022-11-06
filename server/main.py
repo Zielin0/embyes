@@ -35,6 +35,7 @@ class OGMeta:
 
     # @TODO: Add images and possibly links
     # @TODO: would need database tho cause links will be too long
+    # @TODO: If adding a database consider adding custom links and their expiry
     def format(self, color: str, title: str, description: str) -> str:
         if self.check(color, title, description):
             return self.template % (color, title, description)
