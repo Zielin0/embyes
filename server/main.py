@@ -51,9 +51,8 @@ def index() -> str:
     return "Hello, World!"
 
 
-@app.route("/embed")
-# @TODO: Rename embed to OG
-def getEmbed() -> str:
+@app.route("/og")
+def getOG() -> str:
     args = request.args
     if len(args) != 3:
         return "Not enough or too much args", 414
