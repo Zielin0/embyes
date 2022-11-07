@@ -29,7 +29,7 @@ function create() {
   ogModule.title = ogModule.title.replaceAll(' ', '%20');
   ogModule.description = ogModule.description.replaceAll(' ', '%20');
 
-  reqURL = `${url}/embed?color=${ogModule.color.replace('#', '')}&title=${
+  reqURL = `${url}/og?color=${ogModule.color.replace('#', '')}&title=${
     ogModule.title
   }&description=${ogModule.description}`;
 
