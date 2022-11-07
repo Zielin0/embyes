@@ -3,7 +3,7 @@ import OGModule from './modules/OGModule';
 
 const ogModule: OGModule = new OGModule('', '', '');
 
-const match = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
+const hexPattern = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
 
 // @TODO: Move URL to .env
 const url: string = 'http://localhost:6969';
@@ -11,10 +11,20 @@ const url: string = 'http://localhost:6969';
 let reqURL: string;
 
 function copy() {
-  navigator.clipboard.writeText(reqURL);
+  const copyElement = document.getElementById('copy');
+  if (copyElement) {
+    copyElement.setAttribute('aria-busy', 'true');
+    copyElement.innerText = 'Copying...';
+
+    setTimeout(() => {
+      navigator.clipboard.writeText(reqURL);
+
+      copyElement.setAttribute('aria-busy', 'false');
+      copyElement.innerText = 'Copied!';
+    }, 300);
+  }
 }
 
-// @TODO: Add a notification or some sort of info if the link was copied to the clipboard
 function create() {
   ogModule.title = ogModule.title.replaceAll(' ', '%20');
   ogModule.description = ogModule.description.replaceAll(' ', '%20');
@@ -46,7 +56,7 @@ function create() {
 
 function validate() {
   const matchColor: boolean =
-    ogModule.color !== '' && match.test(ogModule.color);
+    ogModule.color !== '' && hexPattern.test(ogModule.color);
 
   const matchTitle: boolean =
     ogModule.title !== '' && ogModule.title.length <= 64;
