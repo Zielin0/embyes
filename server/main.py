@@ -1,17 +1,14 @@
+import os
 import re
 
 from flask import Flask, request
-
-# @TODO: Move hardcoded values to .env
-host = "127.0.0.1"
-port = 6969
 
 hex_pattern = r"^#(?:[0-9a-fA-F]{3}){1,2}$"
 
 
 def loadTemplate() -> str:
     template: str = ""
-    with open("server/template.html", "r") as f:
+    with open(os.getcwd() + "/template.html", "r") as f:
         for line in f.readlines():
             template += str(line)
     return template
@@ -72,4 +69,4 @@ def getOG() -> str:
 
 
 if __name__ == "__main__":
-    app.run(host, port, True)
+    app.run('0.0.0.0', 6969, True)
