@@ -1,4 +1,4 @@
-FROM python
+FROM jfloff/alpine-python
 
 WORKDIR /api
 
