@@ -6,6 +6,8 @@ services:
     build: ./server
     ports:
       - "6969:6969"
+    depends_on:
+      - db
   client:
     container_name: client-container
     restart: always
