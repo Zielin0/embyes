@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  api:
+    container_name: api-container
+    restart: always
+    build: ./server
+    ports:
+      - "6969:6969"
+  client:
+    container_name: client-container
+    restart: always
+    build: ./website
+    ports:
+      - "8080:8080"
+    depends_on:
+      - api
+  db:
+    container_name: postgres-container
+    image: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - database:/data/db
+
+volumes:
+  database:
