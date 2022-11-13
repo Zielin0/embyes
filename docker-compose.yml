@@ -18,7 +18,7 @@ services:
       - api
   db:
     container_name: postgres-container
-    image: postgres
+    image: kiasaki/alpine-postgres
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
