@@ -1,6 +1,6 @@
 from flask import Flask, request
 from modules.OGModule import OGModule
-from template.Template import TemplateFile, loadTemplate
+from template.Template import TemplateFile
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ def getOG() -> str:
     if None in (color, title, description):
         return "Wrong args", 422
 
-    meta = OGModule(loadTemplate(TemplateFile.TEMPLATE_BASIC))
+    meta = OGModule(TemplateFile.TEMPLATE_BASIC)
     try:
         return meta.format(f"#{color}", title, description)
     except ValueError as e:
