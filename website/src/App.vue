@@ -62,7 +62,7 @@ function validate() {
     ogModule.title !== '' && ogModule.title.length <= 64;
 
   const matchDesc: boolean =
-    ogModule.description !== '' && ogModule.description.length <= 1024;
+    ogModule.description !== '' && ogModule.description.length <= 256;
 
   document
     .getElementById('color')
@@ -108,7 +108,7 @@ function validate() {
         v-model="ogModule.description"
         type="text"
         id="desc"
-        maxlength="1024"
+        maxlength="256"
         placeholder="Cool Description :D!"
       />
 

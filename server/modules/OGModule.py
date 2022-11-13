@@ -20,7 +20,7 @@ class OGModule:
     def check(self, color: str, title: str, description: str) -> bool:
         color_check: bool = True if re.search(hex_pattern, color) else False
         title_check: bool = True if len(title) <= 64 else False
-        description_check: bool = True if len(description) <= 1024 else False
+        description_check: bool = True if len(description) <= 256 else False
         if color_check and title_check and description_check:
             return True
         else:
