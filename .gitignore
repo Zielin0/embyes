@@ -5,6 +5,9 @@
 # Node Modules
 node_modules/
 
+# Python cache
+__pycache__/
+
 # Lock files
 *.lock
 package-lock.json
@@ -30,7 +33,7 @@ config.*
 *.env
 
 # Temp files
-temp*
+temp.*
 
 # Logs
 logs/
