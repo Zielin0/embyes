@@ -11,6 +11,7 @@ def index() -> str:
 
 
 @app.route("/og")
+# @TODO: Remove this
 def getOG() -> str:
     args = request.args
     if len(args) != 3:
@@ -26,6 +27,47 @@ def getOG() -> str:
     meta = OGModule(TemplateFile.TEMPLATE_BASIC)
     try:
         return meta.format(f"#{color}", title, description)
+    except ValueError as e:
+        return f"{e}"
+
+
+@app.route("/new", methods=["POST", "GET"])
+def newOG() -> str:
+    # if request.method == "GET":
+    #     return "This is `POST` only route.", 400
+
+    template: TemplateFile = None
+
+    args = request.args
+    if len(args) < 4:
+        return "Got less than 4 required args"
+
+    url = args.get("url")
+    color = args.get("color")
+    title = args.get("title")
+    description = args.get("description")
+
+    if None in (url, color, title, description):
+        return "Wrong args names", 422
+
+    image = args.get("image")
+    small = args.get("small")
+
+    image = image if image != None else ""
+    small = small if small != None else ""
+
+    if image == "" and small == "":
+        template = OGModule(TemplateFile.TEMPLATE_BASIC)
+        # @TODO: Put basic OGModule into the database instead of showing it
+        try:
+            return template.format(f"#{color}", title, description)
+        except ValueError as e:
+            return f"{e}"
+
+    # @TODO: Put full OGModule into the database instead of showing it
+    template = OGModule(TemplateFile.TEMPLATE_FULL)
+    try:
+        return template.format_full(f"#{color}", title, description, image, small)
     except ValueError as e:
         return f"{e}"
 
