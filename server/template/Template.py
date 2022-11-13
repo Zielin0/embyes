@@ -20,3 +20,8 @@ def loadTemplate(templateFile: TemplateFile) -> str:
     else:
         raise FileNotFoundError("Template not found.")
     return template
+
+
+if __name__ == "__main__":
+    print("This is only include file. Do not run it.")
+    exit(1)
