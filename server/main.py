@@ -37,7 +37,7 @@ def newOG() -> str:
     # if request.method == "GET":
     #     return "This is `POST` only route.", 400
 
-    template: TemplateFile = None
+    template: OGModule = None
 
     args = request.args
     if len(args) < 4:
