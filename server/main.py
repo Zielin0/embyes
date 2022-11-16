@@ -11,27 +11,6 @@ def index() -> str:
     return "Hello, World!"
 
 
-@app.route("/og")
-# @TODO: Remove this
-def getOG() -> str:
-    args = request.args
-    if len(args) != 3:
-        return "Not enough or too much args", 414
-
-    color = args.get("color")
-    title = args.get("title")
-    description = args.get("description")
-
-    if None in (color, title, description):
-        return "Wrong args", 422
-
-    meta = OGModule(TemplateFile.TEMPLATE_BASIC)
-    try:
-        return meta.format(f"#{color}", title, description)
-    except ValueError as e:
-        return f"{e}"
-
-
 @app.route("/new", methods=["POST", "GET"])
 def newOG() -> str:
     # if request.method == "GET":
