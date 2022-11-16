@@ -1,8 +1,11 @@
 import db.Environment as Env
 import psycopg2
 
+connection = None
+
 
 def connect():
+    global connection
     try:
         connection = psycopg2.connect(Env.get_connection_url())
         connection.autocommit = True
