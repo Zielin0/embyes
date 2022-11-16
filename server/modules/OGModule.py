@@ -33,10 +33,10 @@ class OGModule:
         color_check: bool = True if re.search(hex_pattern, color) else False
         title_check: bool = True if len(title) <= 64 else False
         description_check: bool = True if len(description) <= 256 else False
-        if image != "":
+        if len(image) > 0 and len(image) < 48:
             image_check: bool = True if re.search(
                 url_pattern, image) else False
-        image_check: bool = True
+        image_check: bool = True if len(image) <= 48 else False
         small_check: bool = True if len(small) <= 32 else False
         if color_check and title_check and description_check and image_check and small_check:
             return True
@@ -52,6 +52,8 @@ class OGModule:
 
     # Full template format
     def format_full(self, color: str, title: str, description: str, image: str = "", small: str = "") -> str:
+        if not image.startswith("http") or not image.startswith("https"):
+            image = f"https://{image}"
         if self.check_full(color, title, description, image, small):
             return self.template % (color, title, description, image, small)
 
