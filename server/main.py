@@ -12,6 +12,7 @@ def index() -> str:
 
 
 @app.route("/new", methods=["POST", "GET"])
+# @TODO: implement rate limiting for this route
 def newOG() -> str:
     # if request.method == "GET":
     #     return "This is `POST` only route.", 400
