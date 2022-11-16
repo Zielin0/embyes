@@ -1,3 +1,4 @@
+import db.Database as DB
 from flask import Flask, request
 from modules.OGModule import OGModule
 from template.Template import TemplateFile
@@ -50,11 +51,8 @@ def newOG() -> str:
     if None in (url, color, title, description):
         return "Wrong args names", 422
 
-    image = args.get("image")
-    small = args.get("small")
-
-    image = image if image != None else ""
-    small = small if small != None else ""
+    image = args.get("image") or ""
+    small = args.get("small") or ""
 
     if image == "" and small == "":
         template = OGModule(TemplateFile.TEMPLATE_BASIC)
@@ -73,4 +71,5 @@ def newOG() -> str:
 
 
 if __name__ == "__main__":
+    DB.connect()
     app.run('0.0.0.0', 6969, True)
