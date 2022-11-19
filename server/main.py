@@ -25,6 +25,9 @@ def newOG() -> str:
     if len(args) < 4:
         return "Got less than 4 required args", 422
 
+    if len(args) > 6:
+        return "Request URL too long", 414
+
     url = args.get("url")
     color = args.get("color")
     title = args.get("title")
