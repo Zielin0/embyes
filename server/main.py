@@ -1,9 +1,11 @@
 from db.Database import Database
 from flask import Flask, request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from psycopg2.errors import UniqueViolation
 
 app = Flask(__name__)
-
+limiter = Limiter(app, key_func=get_remote_address)
 
 db: Database = None
 
@@ -14,7 +16,7 @@ def index() -> str:
 
 
 @app.route("/new", methods=["POST", "GET"])
-# @TODO: implement rate limiting for this route
+@limiter.limit("30/minute")
 def newOG() -> str:
     # if request.method == "GET":
     #     return "This is `POST` only route.", 400

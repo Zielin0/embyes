@@ -1,2 +1,4 @@
 Flask==2.2.2
+Flask_Limiter==2.8.1
+psycopg2==2.9.5
 psycopg2_binary==2.9.5
