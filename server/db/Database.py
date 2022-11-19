@@ -6,7 +6,6 @@ import db.Environment as Env
 import psycopg2
 
 
-# @TODO: Make SQL Injection impossible
 class Database:
     connection = None
     cursor = None
@@ -26,9 +25,10 @@ class Database:
         self.cursor = self.connection.cursor()
 
     def create_basic(self, url: str, color: str, title: str, description: str) -> None:
-        self.cursor.execute(
-            f"INSERT INTO {Env.POSTGRES_DB} (url, color, title, description) VALUES ('{url}', '{color}', '{title}', '{description}')")
+        query = f"INSERT INTO {Env.POSTGRES_DB} (url, color, title, description) VALUES (%s, %s, %s, %s)"
+        self.cursor.execute(query, (url, color, title, description))
 
     def create_full(self, url: str, color: str, title: str, description: str, image: str, small: str) -> None:
+        query = f"INSERT INTO {Env.POSTGRES_DB} (url, color, title, description, image, small) VALUES (%s, %s, %s, %s, %s, %s)"
         self.cursor.execute(
-            f"INSERT INTO {Env.POSTGRES_DB} (url, color, title, description, image, small) VALUES ('{url}', '{color}', '{title}', '{description}', '{image}', '{small}')")
+            query, (url, color, title, description, image, small))
