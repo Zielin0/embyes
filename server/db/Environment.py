@@ -1,10 +1,14 @@
 import os
 
+POSTGRES_USER = os.environ.get("POSTGRES_USER")
+POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
+POSTGRES_DB = os.environ.get("POSTGRES_DB")
+
 
 def get_connection_url() -> str:
-    POSTGRES_USER = os.environ.get("POSTGRES_USER")
-    POSTGRES_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
-    POSTGRES_DB = os.environ.get("POSTGRES_DB")
+    global POSTGRES_USER
+    global POSTGRES_PASSWORD
+    global POSTGRES_DB
 
     POSTGRES_HOST = "db"
 
