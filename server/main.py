@@ -12,7 +12,7 @@ db: Database = None
 
 @app.route("/")
 def index() -> str:
-    return "Hello, World!"
+    return "Hello, World!", 200
 
 
 @app.route("/new", methods=["POST", "GET"])
