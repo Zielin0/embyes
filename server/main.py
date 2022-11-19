@@ -1,9 +1,12 @@
-import db.Database as DB
+from db.Database import Database
 from flask import Flask, request
 from modules.OGModule import OGModule
 from template.Template import TemplateFile
 
 app = Flask(__name__)
+
+
+db: Database = None
 
 
 @app.route("/")
@@ -51,5 +54,6 @@ def newOG() -> str:
 
 
 if __name__ == "__main__":
-    DB.connect()
+    db = Database()
+    db.connect()
     app.run('0.0.0.0', 6969, True)
