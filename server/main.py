@@ -1,8 +1,6 @@
 from db.Database import Database
 from flask import Flask, request
-from modules.OGModule import OGModule
 from psycopg2.errors import UniqueViolation
-from template.Template import TemplateFile
 
 app = Flask(__name__)
 
