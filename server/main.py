@@ -1,3 +1,4 @@
+import db.Environment as Env
 from db.Database import Database
 from flask import Flask, request
 from flask_limiter import Limiter
@@ -21,7 +22,7 @@ def index() -> str:
 def lol(url: str) -> str:
     template: OGModule = None
 
-    query = "SELECT * FROM embeds WHERE url = %s"
+    query = f"SELECT * FROM {Env.POSTGRES_DB} WHERE url = %s"
     db.cursor.execute(query, (url, ))
 
     row = db.cursor.fetchall()
