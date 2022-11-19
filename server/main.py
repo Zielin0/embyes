@@ -43,13 +43,13 @@ def newOG() -> str:
         try:
             db.create_basic(url, color, title, description)
             return "Success", 201
-        except UniqueViolation as e:
+        except UniqueViolation:
             return f"Failed to create embed. Row with url of '{url}' already exists", 409
 
     try:
         db.create_full(url, color, title, description, image, small)
         return "Success", 201
-    except UniqueViolation as e:
+    except UniqueViolation:
         return f"Failed to create embed. Row with url of '{url}' already exists", 409
 
 
