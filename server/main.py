@@ -15,11 +15,19 @@ db: Database = None
 
 @app.route("/")
 def index() -> str:
+    db.delete_all_expired()
+
     return "Hello, World!", 200
 
 
 @app.route("/<url>")
 def getEmbed(url: str) -> str:
+    try:
+        if db.delete_expired(url):
+            return "This URL has expired"
+    except IndexError as e:
+        return f"{e}", 400
+
     template: OGModule = None
 
     query = f"SELECT * FROM {Env.POSTGRES_DB} WHERE url = %s"
@@ -50,6 +58,8 @@ def getEmbed(url: str) -> str:
 @app.route("/new", methods=["POST", "GET"])
 @limiter.limit("30/minute")
 def newOG() -> str:
+    db.delete_all_expired()
+
     if request.method == "GET":
         return "This is `POST` only route.", 400
 
@@ -89,4 +99,5 @@ if __name__ == "__main__":
     db = Database()
     db.connect()
     db.create_cursor()
+    db.delete_all_expired()
     app.run('0.0.0.0', 6969, True)
