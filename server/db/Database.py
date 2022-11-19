@@ -6,6 +6,7 @@ import db.Environment as Env
 import psycopg2
 
 
+# @TODO: Make SQL Injection impossible
 class Database:
     connection = None
     cursor = None
