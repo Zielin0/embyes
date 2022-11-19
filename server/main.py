@@ -19,7 +19,7 @@ def index() -> str:
 
 
 @app.route("/<url>")
-def lol(url: str) -> str:
+def getEmbed(url: str) -> str:
     template: OGModule = None
 
     query = f"SELECT * FROM {Env.POSTGRES_DB} WHERE url = %s"
