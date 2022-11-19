@@ -24,8 +24,10 @@ class Database:
             raise ValueError("Connection is not defined")
         self.cursor = self.connection.cursor()
 
-    def create_basic(url: str, color: str, title: str, description: str) -> None:
-        pass
+    def create_basic(self, url: str, color: str, title: str, description: str) -> None:
+        self.cursor.execute(
+            f"INSERT INTO {Env.POSTGRES_DB} (url, color, title, description) VALUES ('{url}', '{color}', '{title}', '{description}')")
 
-    def create_full(url: str, color: str, title: str, description: str, image: str = "", small: str = "") -> None:
-        pass
+    def create_full(self, url: str, color: str, title: str, description: str, image: str, small: str) -> None:
+        self.cursor.execute(
+            f"INSERT INTO {Env.POSTGRES_DB} (url, color, title, description, image, small) VALUES ('{url}', '{color}', '{title}', '{description}', '{image}', '{small}')")
