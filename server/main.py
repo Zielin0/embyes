@@ -1,6 +1,7 @@
 from db.Database import Database
 from flask import Flask, request
 from modules.OGModule import OGModule
+from psycopg2.errors import UniqueViolation
 from template.Template import TemplateFile
 
 app = Flask(__name__)
@@ -34,26 +35,25 @@ def newOG() -> str:
     if None in (url, color, title, description):
         return "Wrong args names", 422
 
-    image = args.get("image") or ""
-    small = args.get("small") or ""
+    image = args.get("image")
+    small = args.get("small")
 
-    if image == "" and small == "":
-        template = OGModule(TemplateFile.TEMPLATE_BASIC)
-        # @TODO: Put basic OGModule into the database instead of showing it
+    if image == None and small == None:
         try:
-            return template.format(f"#{color}", title, description)
-        except ValueError as e:
-            return f"{e}"
+            db.create_basic(url, color, title, description)
+            return "Success"
+        except UniqueViolation as e:
+            return f"Failed to create embed. Row with url of '{url}' already exists"
 
-    # @TODO: Put full OGModule into the database instead of showing it
-    template = OGModule(TemplateFile.TEMPLATE_FULL)
     try:
-        return template.format_full(f"#{color}", title, description, image, small)
-    except ValueError as e:
-        return f"{e}"
+        db.create_full(url, color, title, description, image, small)
+        return "Success"
+    except UniqueViolation as e:
+        return f"Failed to create embed. Row with url of '{url}' already exists"
 
 
 if __name__ == "__main__":
     db = Database()
     db.connect()
+    db.create_cursor()
     app.run('0.0.0.0', 6969, True)
