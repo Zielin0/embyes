@@ -23,7 +23,7 @@ def newOG() -> str:
 
     args = request.args
     if len(args) < 4:
-        return "Got less than 4 required args"
+        return "Got less than 4 required args", 422
 
     url = args.get("url")
     color = args.get("color")
@@ -39,15 +39,15 @@ def newOG() -> str:
     if image == None and small == None:
         try:
             db.create_basic(url, color, title, description)
-            return "Success"
+            return "Success", 201
         except UniqueViolation as e:
-            return f"Failed to create embed. Row with url of '{url}' already exists"
+            return f"Failed to create embed. Row with url of '{url}' already exists", 409
 
     try:
         db.create_full(url, color, title, description, image, small)
-        return "Success"
+        return "Success", 201
     except UniqueViolation as e:
-        return f"Failed to create embed. Row with url of '{url}' already exists"
+        return f"Failed to create embed. Row with url of '{url}' already exists", 409
 
 
 if __name__ == "__main__":
