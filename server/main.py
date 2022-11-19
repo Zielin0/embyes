@@ -21,8 +21,6 @@ def newOG() -> str:
     # if request.method == "GET":
     #     return "This is `POST` only route.", 400
 
-    template: OGModule = None
-
     args = request.args
     if len(args) < 4:
         return "Got less than 4 required args"
