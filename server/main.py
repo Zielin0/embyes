@@ -49,8 +49,8 @@ def lol(url: str) -> str:
 @app.route("/new", methods=["POST", "GET"])
 @limiter.limit("30/minute")
 def newOG() -> str:
-    # if request.method == "GET":
-    #     return "This is `POST` only route.", 400
+    if request.method == "GET":
+        return "This is `POST` only route.", 400
 
     args = request.args
     if len(args) < 4:
