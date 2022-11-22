@@ -4,7 +4,7 @@ from flask import Flask, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from modules.OGModule import OGModule
-from psycopg2.errors import UniqueViolation
+from psycopg2.errors import StringDataRightTruncation, UniqueViolation
 from template.Template import TemplateFile
 
 app = Flask(__name__)
@@ -87,12 +87,16 @@ def newOG() -> str:
             return "Success", 201
         except UniqueViolation:
             return f"Failed to create embed. Row with url of '{url}' already exists", 409
+        except StringDataRightTruncation:
+            return "Some of parameters are too long", 409
 
     try:
         db.create_full(url, color, title, description, image, small)
         return "Success", 201
     except UniqueViolation:
         return f"Failed to create embed. Row with url of '{url}' already exists", 409
+    except StringDataRightTruncation:
+        return "Some of parameters are too long", 409
 
 
 if __name__ == "__main__":
