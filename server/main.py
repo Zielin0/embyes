@@ -17,7 +17,7 @@ db: Database = None
 def index() -> str:
     db.delete_all_expired()
 
-    return "Hello, World!", 200
+    return "Hello, Embyes!", 200
 
 
 @app.route("/<url>")
