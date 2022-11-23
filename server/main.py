@@ -80,6 +80,9 @@ def newOG() -> str:
     if None in (url, color, title, description):
         return "Wrong args names", 422
 
+    if "" in (url, color, title, description):
+        return "Some of args are empty", 422
+
     image = args.get("image")
     small = args.get("small")
 
