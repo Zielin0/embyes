@@ -1,6 +1,7 @@
 import db.Environment as Env
 from db.Database import Database
 from flask import Flask, request
+from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from modules.OGModule import OGModule
@@ -9,6 +10,7 @@ from template.Template import TemplateFile
 
 app = Flask(__name__)
 limiter = Limiter(app, key_func=get_remote_address)
+CORS(app)
 
 db: Database = None
 
@@ -24,7 +26,7 @@ def index() -> str:
 def getEmbed(url: str) -> str:
     try:
         if db.delete_expired(url):
-            return "This URL has expired"
+            return "This URL has expired", 410
     except IndexError as e:
         return f"{e}", 400
 
