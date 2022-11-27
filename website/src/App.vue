@@ -5,8 +5,10 @@ async function create(submitEvent: any) {
   const { elements } = submitEvent.target;
   const { color, title, url, desc, image, small } = elements;
 
-  // @TODO: Handling response status codes.
-  // @TODO: Add aria-invalid for certain inputs
+  const message = document.getElementById('message');
+
+  let code: number;
+
   await fetch(
     `${baseUrl}/new?${new URLSearchParams({
       url: url.value,
@@ -19,7 +21,38 @@ async function create(submitEvent: any) {
     {
       method: 'POST',
     }
-  );
+  )
+    .then((res) => {
+      code = res.status;
+      if (res.status < 300 && res.status > 200) {
+        message!.setAttribute('style', 'color: #6de24d');
+      } else {
+        message!.setAttribute('style', 'color: #ef4543');
+      }
+
+      return res.text();
+    })
+    .then((text) => {
+      if (code === 201) {
+        // @TODO: Do created stuff info and copy button
+      }
+      if (code !== 429) {
+        document
+          .getElementById('title')
+          ?.setAttribute('aria-invalid', `${title.value === ''}`);
+
+        document
+          .getElementById('url')
+          ?.setAttribute('aria-invalid', `${url.value === '' || code === 409}`);
+
+        document
+          .getElementById('desc')
+          ?.setAttribute('aria-invalid', `${desc.value === ''}`);
+
+        message!.innerText = text;
+      }
+      message!.innerText = 'Too many requests';
+    });
 }
 </script>
 
@@ -85,6 +118,8 @@ async function create(submitEvent: any) {
       </div>
 
       <button type="submit">Create!</button>
+
+      <span id="message"></span>
     </form>
   </main>
 </template>
