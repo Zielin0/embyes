@@ -24,34 +24,36 @@ async function create(submitEvent: any) {
   )
     .then((res) => {
       code = res.status;
-      if (res.status < 300 && res.status > 200) {
+
+      return res.text();
+    })
+    .then((text) => {
+      if (code < 300 && code > 200) {
         message!.setAttribute('style', 'color: #6de24d');
       } else {
         message!.setAttribute('style', 'color: #ef4543');
       }
 
-      return res.text();
-    })
-    .then((text) => {
+      if (code === 429) message!.innerText = 'Too many requests';
+
+      document
+        .getElementById('title')
+        ?.setAttribute('aria-invalid', `${title.value === ''}`);
+
+      document
+        .getElementById('url')
+        ?.setAttribute('aria-invalid', `${url.value === '' || code === 409}`);
+
+      document
+        .getElementById('desc')
+        ?.setAttribute('aria-invalid', `${desc.value === ''}`);
+
+      message!.innerText = text;
+
       if (code === 201) {
-        // @TODO: Do created stuff info and copy button
+        message!.setAttribute('style', 'color: #41e0c8');
+        message!.innerText = `Created! Your Embed is at: ${baseUrl}/${url.value}`;
       }
-      if (code !== 429) {
-        document
-          .getElementById('title')
-          ?.setAttribute('aria-invalid', `${title.value === ''}`);
-
-        document
-          .getElementById('url')
-          ?.setAttribute('aria-invalid', `${url.value === '' || code === 409}`);
-
-        document
-          .getElementById('desc')
-          ?.setAttribute('aria-invalid', `${desc.value === ''}`);
-
-        message!.innerText = text;
-      }
-      message!.innerText = 'Too many requests';
     });
 }
 </script>
