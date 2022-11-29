@@ -80,6 +80,20 @@ If you want to run again and restore the database just do:
 $ docker compose up -d && ./restore_db.bat
 ```
 
+You will need [ngork](https://ngrok.com/) if you want to test it.
+
+Run ngrok with http method on port `6969`.
+
+Open another terminal window and run:
+
+```shell
+$ ngrok http 6969
+```
+
+Copy the URL from ngrok and paste it to `website/.env`.
+
+Now visit `127.0.0.1:8080` and create a test embed.
+
 ## License
 
 This project is under the [MIT](./LICENSE) License.
